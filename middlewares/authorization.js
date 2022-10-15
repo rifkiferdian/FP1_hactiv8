@@ -8,11 +8,15 @@ const authorization  = async (req, res, next) => {
         const owner_id = res.locals.user.id
         const id = req.params.id
         const query = {
-            text: 'SELECT id, owner_id FROM reflections WHERE id = $1 AND owner_id = $2',
-            values: [id, owner_id]
+            text: 'SELECT id, owner_id FROM reflections WHERE id = $1 ',
+            values: [id]
         }
         const result = await pool.query(query);
         if(!result.rowCount) {
+            throw new AuthenticationError('Id tidak ditemukan ...!')
+        }
+        
+        if(result.rows[0].owner_id !== owner_id){
             throw new AuthenticationError('Anda tidak punya Akses di data ini...!')
         }
         res.locals.reflections = result.rows[0]
