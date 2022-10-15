@@ -26,6 +26,7 @@ app.post("/api/v1/users/login", UserController.login);
 
 app.use('/api/v1/reflections', authentication);
 app.get("/api/v1/reflections/:id", authorization, ReflectionsController.getReflections);
+app.delete("/api/v1/reflections/:id", authorization, ReflectionsController.delReflections);
 // Tambahkan routes reflection dibawah sini
 
 app.listen(process.env.PORT, () => {

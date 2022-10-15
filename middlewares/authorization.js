@@ -1,4 +1,3 @@
-const InvariantError = require('../exceptions/InvariantError');
 const AuthenticationError = require('../exceptions/AuthenticationError');
 const ClientError = require('../exceptions/ClientError');
 const { Pool } = require('pg')
