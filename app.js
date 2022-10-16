@@ -22,6 +22,7 @@ app.get("/", async (req, res) => {
 });
 
 app.post("/api/v1/users/login", UserController.login);
+app.post("/api/v1/users/register", UserController.register);
 // Route register disini
 
 app.use('/api/v1/reflections', authentication);

@@ -34,6 +34,34 @@ class UserController {
       });
     }
   }
+  static async register(req, res) {
+    try {
+      const pool = new Pool();
+
+      const { email, password } = req.body;
+      const query = {
+        text: 'INSERT INTO users (email, password) VALUES($1, $2);',
+        values: [email, password]
+      }
+      const result = await pool.query(query);
+
+      return res.status(200).json(
+        "Berhasil membuat user"
+      )
+    } catch (e) {
+      if (e instanceof ClientError) {
+        return res.status(e.statusCode).json({
+          status: 'failed',
+          message: e.message
+        });
+      }
+      console.error(e);
+      return res.status(500).json({
+        status: 'failed',
+        message: 'Terjadi kesalahan pada server'
+      });
+    }
+  }
 }
 
 module.exports = UserController;
