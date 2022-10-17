@@ -19,8 +19,8 @@ Membuat API dengan database POstgreSQL
 - [x] Membuat Autentikasi menggunakan JWT
 - [X] Membuat Authorization menggunakan JWT
 - [x] Create API login
-- [ ] Create API register
-- [ ] Create API CRUD reflections
+- [X] Create API register
+- [X] Create API CRUD reflections
 
 ### Read Docs
 
