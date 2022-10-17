@@ -25,9 +25,9 @@ app.post("/api/v1/users/login", UserController.login);
 app.post("/api/v1/users/register", UserController.register);
 
 app.use('/api/v1/reflections', authentication);
-app.get("/api/v1/reflections/:id", authorization, ReflectionsController.getReflections);
+app.get("/api/v1/reflections", ReflectionsController.getReflections);
+app.post("/api/v1/reflections", ReflectionsController.inputReflections);
 app.delete("/api/v1/reflections/:id", authorization, ReflectionsController.delReflections);
-app.post("/api/v1/reflections/", ReflectionsController.inputReflections);
 app.put("/api/v1/reflections/:id", authorization, ReflectionsController.editReflections);
 
 app.listen(process.env.PORT, () => {

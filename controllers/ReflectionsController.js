@@ -7,10 +7,10 @@ const pool = new Pool();
 class ReflectionsController {
     static async getReflections(req, res) {
         try {
-            const id = req.params.id
+            const owner_id = res.locals.user.id
             const query = {
-                text: 'SELECT * FROM reflections WHERE id=$1 ',
-                values: [id]
+                text: 'SELECT * FROM reflections WHERE owner_id=$1 ',
+                values: [owner_id]
             }
             const result = await pool.query(query);
             if (!result.rowCount) {
@@ -58,14 +58,11 @@ class ReflectionsController {
             const dateNow = new Date()
             const { success, low_point, take_away } = req.body;
             const query = {
-                text: 'INSERT INTO reflections (success, low_point, take_away, owner_id, created_date, modified_date) VALUES($1, $2, $3, $4, $5, $6);',
+                text: 'INSERT INTO reflections (success, low_point, take_away, owner_id, created_date, modified_date) VALUES($1, $2, $3, $4, $5, $6) RETURNING id, success, low_point, take_away, owner_id, created_date, modified_date',
                 values: [success, low_point, take_away, owner_id, dateNow, dateNow]
             }
             const result = await pool.query(query);
-            return res.status(200).json({
-                status: 'success',
-                message:"Berhasil membuat reflections"
-            })
+            return res.status(200).json(result.rows[0])
         } catch (error) {
             return res.status(500).json({
                 status: 'failed',
