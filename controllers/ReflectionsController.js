@@ -51,6 +51,51 @@ class ReflectionsController {
             return res.status(500).json(error)
         }
     }
+
+    static async inputReflections(req, res) {
+        try {
+            const owner_id = res.locals.user.id
+            const dateNow = new Date()
+            const { success, low_point, take_away } = req.body;
+            const query = {
+                text: 'INSERT INTO reflections (success, low_point, take_away, owner_id, created_date, modified_date) VALUES($1, $2, $3, $4, $5, $6);',
+                values: [success, low_point, take_away, owner_id, dateNow, dateNow]
+            }
+            const result = await pool.query(query);
+            return res.status(200).json({
+                status: 'success',
+                message:"Berhasil membuat reflections"
+            })
+        } catch (error) {
+            return res.status(500).json({
+                status: 'failed',
+                message: error.message
+            });
+        }
+    } 
+
+
+    static async editReflections(req, res) {
+        try {
+            const id = req.params.id
+            const dateNow = new Date()
+            const { success, low_point, take_away } = req.body;
+            const query = {
+                text: 'UPDATE reflections SET success = $1, low_point = $2, take_away = $3, modified_date = $4 WHERE id = $5 ;',
+                values: [success, low_point, take_away, dateNow, id]
+            }
+            const result = await pool.query(query);
+            return res.status(200).json({
+                status: 'success',
+                message:"Berhasil Merubah data reflections"
+            })
+        } catch (error) {
+            return res.status(500).json({
+                status: 'failed',
+                message: error.message
+            });
+        }
+    } 
 }
 
 module.exports = ReflectionsController;
